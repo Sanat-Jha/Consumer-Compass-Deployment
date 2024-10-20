@@ -1,0 +1,83 @@
+/* General Styles */
+
+
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 10px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+.section-title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: xx-large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="url"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="file"] {
+    margin-bottom: 20px;
+}
+
+.image-preview {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border: 1px solid #000;
+    margin-bottom: 20px;
+    display: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #1b1b1b;
+    color: #ffffff;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color:darkgreen
+
+}
+
+.section-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+}
