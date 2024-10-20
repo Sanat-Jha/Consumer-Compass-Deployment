@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ SECRET_KEY = 'django-insecure-vn(e+ckt!&7ex2lh0el==d7&!p9_ug#%=&m&%lxo70k&u9jl3g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app","*"]
+ALLOWED_HOSTS = [".vercel.app","*","127.0.0.1"]
 # Set the custom user model
 AUTH_USER_MODEL = 'UserManagement.Consumer'
 
@@ -124,13 +125,12 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     "static/",
 ]
-STATIC_ROOT = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build','static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
