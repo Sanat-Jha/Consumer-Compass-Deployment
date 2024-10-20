@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-vn(e+ckt!&7ex2lh0el==d7&!p9_ug#%=&m&%lxo70k&u9jl3g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [".vercel.app"]
+ALLOWED_HOSTS = [".vercel.app","*"]
 # Set the custom user model
 AUTH_USER_MODEL = 'UserManagement.Consumer'
 
