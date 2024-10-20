@@ -1,0 +1,132 @@
+
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="icon" href="{% static 'favicon.png' %}" type="image/x-icon">
+    {% block header %}{% endblock %}
+
+    </head>
+
+    <body>
+        <canvas id="backgroundCanvas"></canvas>
+
+        <!-- Top Navbar -->
+        <div class="navbar">
+            <a href="/Laptop">
+                <div class="logo">
+                    <img src="{% static 'welcomepagelogo.png' %}" alt="Consumer Compass Logo">
+                </div>
+            </a>
+            {% block searchbox %}{% endblock %}
+            
+        
+            <div class="auth-buttons">
+                <a href="/addproduct" class="add-product-btn">Add a Product</a>
+                {% if user.is_authenticated %}
+                <div class="welcome-message">
+                    <p class="navbar-username">{{ consumer.username }}</p>
+                    <p class="navbar-approvedby">Approved By: {{ consumer.approvedscore }}</p> 
+                    <a href="/logout">Logout</a>
+                </div>
+                {% else %}
+                    <a href="/login">Login</a>
+                    <a href="/register">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        
+        </div>
+        <!-- Second Navbar (Category List) -->
+        <div class="category-navbar">
+            {% for cat in categories %}
+            <a href="/{{ cat.name }}">{{ cat.name }}</a>
+            {% endfor %}
+        </div>
+            {% block content %}
+            {% endblock %}
+<!-- HTML for Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <h2 class="footer-logo">Consumer Compass</h2>
+        <div class="footer-links">
+            <a href="/aboutus" class="footer-link">About Us</a>
+        </div>
+        <p class="footer-copyright">&copy; 2024 Consumer Compass. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- CSS for Footer -->
+<style>
+    .footer {
+        background-color: #000;
+        color: #fff;
+        padding: 40px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .footer-content {
+        max-width: 1200px; /* Limits the width of the content */
+        margin: 0 auto; /* Centers the footer content */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center items horizontally */
+        text-align: center; /* Center text */
+    }
+
+    .footer-logo {
+        margin: 0;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px; /* Space below the logo */
+    }
+
+    .footer-links {
+        margin: 20px 0;
+        display: flex; /* Use flexbox for horizontal alignment of links */
+        justify-content: center; /* Center links horizontally */
+    }
+
+    .footer-link {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px; /* Space between links */
+        font-size: 16px;
+        transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+        color: #1e90ff; /* Change link color on hover */
+        text-decoration: underline;
+    }
+
+    .footer-copyright {
+        font-size: 14px;
+        margin-top: 20px;
+        color: #aaa;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .footer-links {
+            flex-direction: column; /* Stack links vertically on small screens */
+        }
+        .footer-link {
+            margin: 10px 0; /* Space between stacked links */
+        }
+    }
+</style>
+
+        <script src="{% static 'js/canvas-animation.js' %}"></script>
+    </body>
+
+    </html>

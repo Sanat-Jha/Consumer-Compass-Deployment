@@ -1,0 +1,42 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Write Review{% endblock %}
+{% block searchbox %}
+
+{% endblock %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/writereview.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="review-container">
+    <h2>Review {{ product.title }}</h2>
+    <form id="review-form" method="POST" action="">
+        {% csrf_token %}
+        <label for="rating">Rating (out of 5):</label>
+        <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+        <label for="review">Your Review:</label>
+        <textarea id="review" name="review" rows="4" required></textarea>
+
+        <button type="submit">Post Review</button>
+    </form>
+</div>
+{% if redirect %}
+    <form id="postForm" action="/product/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="product_title" value="{{ product.title }}">
+    </form>
+
+    <script>
+        document.getElementById("postForm").submit();
+    </script>
+
+    <script src="{% static 'js/writereview.js' %}"></script>
+{% endif %}
+
+
+{% endblock %}

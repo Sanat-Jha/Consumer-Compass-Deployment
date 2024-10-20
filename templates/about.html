@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}About Us{% endblock %}
+{% block searchbox %}
+{% endblock %}
+
+{% block content %}
+<div class="about-us-section">
+    <div class="about-us-header">
+        <h1>Welcome to Consumer Compass</h1>
+        <p>Your trusted guide for navigating the world of products and reviews.</p>
+    </div>
+
+    <div class="about-us-content">
+        <h2>Our Mission</h2>
+        <p>
+            At Consumer Compass, our mission is to help you make informed decisions by providing unbiased, reliable, and insightful reviews from across various platforms like Amazon and Flipkart. You’re looking for the best gadgets? we’re here to guide you every step of the way.
+        </p>
+
+        <h2>Why Choose Us?</h2>
+        <p>
+            In today’s world, finding the perfect product can be overwhelming. That’s why we bring together a wealth of reviews, product details, and user experiences to simplify the decision-making process. With a focus on transparency and user experience, we make sure you have all the information you need in one place.
+        </p>
+
+        <h2>Our Values</h2>
+        <ul>
+            <li><strong>Transparency:</strong> We are committed to providing honest and clear reviews.</li>
+            <li><strong>Community-Driven:</strong> Our users play a crucial role in shaping our platform.</li>
+            <li><strong>Trustworthy Information:</strong> We only provide reviews from verified sources and users.</li>
+        </ul>
+
+        <h2>Join the Journey</h2>
+        <p>
+            Whether you are a tech enthusiast, a home shopper, or someone looking for the next big thing, Consumer Compass is here to point you in the right direction. Together, we can ensure that every purchase you make is the best choice for you.
+        </p>
+    </div>
+</div>
+
+<!-- CSS for the About Us page -->
+<style>
+    .about-us-section {
+        background-color: #000;
+        color: #fff;
+        padding: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .about-us-header h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .about-us-header p {
+        font-size: 18px;
+        margin-bottom: 40px;
+        text-align: center;
+        color: #ccc;
+    }
+
+    .about-us-content h2 {
+        font-size: 28px;
+        margin-top: 40px;
+        color: #1e90ff;
+    }
+
+    .about-us-content p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin: 20px 0;
+        color: #ddd;
+    }
+
+    .about-us-content ul {
+        list-style: none;
+        padding-left: 0;
+        color: #ddd;
+    }
+
+    .about-us-content ul li {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .about-us-content ul li strong {
+        color: #1e90ff;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .about-us-header h1 {
+            font-size: 28px;
+        }
+        .about-us-header p {
+            font-size: 16px;
+        }
+        .about-us-content h2 {
+            font-size: 24px;
+        }
+    }
+</style>
+{% endblock %}
