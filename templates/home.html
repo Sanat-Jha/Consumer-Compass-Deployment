@@ -1,0 +1,56 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Consumer Compass{% endblock %}
+{% block searchbox %}
+<div class="search-bar">
+            <input type="text" placeholder="Search...">
+        </div>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <!-- Container for the product cards -->
+    <div class="product-grid">
+        {% for product in products %}
+        <form action="{% url 'product' %}" method="POST" class="product-form">
+            {% csrf_token %}
+            <div class="product-card" data-title="{{ product.title }}" aria-labelledby="title-{{ forloop.counter }}">
+                <button type="submit" class="product-button" aria-label="View details for {{ product.title }}">
+                    <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+                    <h1 id="title-{{ forloop.counter }}" class="title">{{ product.title }}</h1>
+                    <h2 class="price">₹{{ product.price }}</h2>
+                    <div class="ratings">
+                        <div class="rating">
+                            <span>CC Rating:</span>
+                            <div class="star-rating" aria-label="CC Rating: {{ product.ccscore }} out of 5">
+                                {% for i in "12345" %}
+                                    {% if product.ccscore|add:0 >= i|add:0 %}
+                                        <i class="star filled">★</i>
+                                    {% else %}
+                                        <i class="star">☆</i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="online-rating">
+                            <span>Online Rating:</span>
+                            <div class="star-rating" aria-label="Online Rating: {{ product.online_rating }} out of 5">
+                                {% for i in "12345" %}
+                                    {% if product.online_rating|add:0 >= i|add:0 %}
+                                        <i class="star filled">★</i>
+                                    {% else %}
+                                        <i class="star">☆</i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="product_title" value="{{ product.title }}">
+                </button>
+            </div>
+            
+        </form>
+        <script src="{% static 'js/home.js' %}"></script>
+        {% endfor %}
+{% endblock %}

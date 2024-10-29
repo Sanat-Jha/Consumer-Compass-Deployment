@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{product.title}}{% endblock %}
+
+{% block header %}
+
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="product-details">
+        <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+        <div class="product-info">
+            <h1 class="product-title">{{ product.title }}</h1>
+            <p class="product-price">Price: ₹{{ product.price }}</p>
+            <p class="product-ccscore">CC Score: {{ product.ccscore }}/5</p>
+            <p class="product-online-review">Online Rating: {{ product.online_rating }}</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2 class="reviews-title">Customer Reviews</h2>
+        
+        <!-- Dropdown to select review source -->
+        <select class = "editreviewbutton" onchange="showReviews(this.value)">
+            <option value="cc">CC Reviews</option>
+            <option value="amazon">Amazon Reviews</option>
+            <option value="flipkart">Flipkart Reviews</option>
+        </select>
+        
+        <!-- CC Reviews Section (Default) -->
+        <div id="cc-reviews" class="reviews-section" >
+            {% if writereview %}<a href="/writereview/{{ product.title }}" class= "writereviewbutton" >Write your review</a>{% endif %}
+            <h3 class="reviews-title">CC Reviews</h3>
+            <div class="review-list">
+                {% for review in ccreviews %}
+                <div class="review-item" id="review-{{ review.id }}">
+                    <h3 class="review-author{{ review.consumer.username }}">{{ review.consumer.username }}</h3>
+                    <p class="review-comment{{ review.consumer.username }}">{{ review.content }}</p>
+                    <p class="approve-score-{{ review.consumer.username }}">Approvals: {{ review.approvalscore }}</p>
+                    
+                    {% if review.consumer.username == username %}
+                    <button class="editreviewbutton" onclick="openEditModal('{{ review.content }}', {{ review.id }})">Edit Review</button>
+                    {% else %}
+                        <i id="approve-icon-{{ review.consumer.username }}"
+                        class="fas fa-plus-circle"
+                        style="color: {% if username in review.approvallist %}#00ff00{% else %}#cccccc{% endif %}; cursor: pointer;"
+                        onclick="{% if user.is_authenticated %}
+                                                toggleApproval('{{ review.product.title }}', '{{ review.consumer.username }}', '{{username}}')
+                                                {% else %}
+                                                alert('Please login first')
+                                                {% endif %}">
+                                </i>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Amazon Reviews Section -->
+                <div id="amazon-reviews" class="reviews-section" style="display: none;">
+                    <h3 class="reviews-title">Amazon Reviews</h3>
+                    <div class="review-list">
+                        {% for review in product.amazonreviews %}
+                        <div class="review-item">
+                            <p class="review-comment">{{ review }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Flipkart Reviews Section -->
+                <div id="flipkart-reviews" class="reviews-section" style="display: none;">
+                    <h3 class="reviews-title">Flipkart Reviews</h3>
+                    <div class="review-list">
+                        {% for review in product.flipkartreviews %}
+                        <div class="review-item">
+                            <p class="review-comment">{{ review }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Edit Review Modal -->
+            <div id="editReviewModal" style="display: none;">
+                <div class="modal-background">
+                    <div class="modal-content">
+                        <h2>Edit Your Review</h2>
+                        <form id="editReviewForm">
+                            {% csrf_token %}
+                            <input type="hidden" id="edit-username" name="username" value="{{username}}">
+                            <input type="hidden" id="edit-product" name="product" value="{{product.title}}">
+                            <textarea id="edit-review-content" name="content" rows="4"></textarea>
+                            <button type="submit">Save Changes</button>
+                            <button type="button" onclick="closeEditModal()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function toggleApproval(productTitle, reviewusername, username) {
+                const approveIcon = document.getElementById("approve-icon-" + reviewusername);
+    const approvescore = document.getElementsByClassName("approve-score-"+reviewusername)[0];
+    const isApproved = approveIcon.style.color === 'rgb(0, 255, 0)'; // Check if it's filled (green)
+
+    const postData = {
+        product_title: productTitle,
+        username: username,
+        reviewusername: reviewusername,
+        approve: !isApproved  // Send the opposite of the current state
+    };
+
+    fetch('/changeapproval/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify(postData)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Change the icon's color based on approval status
+                approveIcon.style.color = isApproved ? '#cccccc' : '#00ff00';  // Toggle between filled and unfilled
+                approvescore.textContent = "Approvals: " + data.approvescore;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+document.getElementById('editReviewForm').onsubmit = function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const username = document.getElementById('edit-username').value;
+    const product = document.getElementById('edit-product').value;
+    const content = document.getElementById('edit-review-content').value;
+
+    // Make AJAX request
+    fetch('/editreview/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            username: username,
+            product: product,
+            content: content
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Find the review and update its content using the new content from the response
+                const reviewElement = document.getElementsByClassName("review-comment"+data.username)[0];
+                if (reviewElement) {
+                    console.log(reviewElement);
+                    // Update the review comment with the new content returned from the backend
+                    reviewElement.textContent = data.content;
+                    reviewElement.body = data.content;
+                }
+
+                // Close the modal
+                closeEditModal();
+            } else {
+                alert("Failed to update review. Please try again.");
+            }
+        })
+
+        .catch(error => {
+            console.error('Error:', error);
+        });
+};
+
+        </script>
+        <script src="{% static 'js/product.js' %}"></script>
+        {% endblock %}
+        

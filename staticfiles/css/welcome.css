@@ -1,0 +1,108 @@
+@font-face {
+    font-family: 'WelcomeFont';
+    src: url('welcomefont.ttf') format('truetype');
+}
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+    height: 100%;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+}
+
+header {
+    padding: 1rem;
+    display: flex;
+    justify-content: center; /* Center logo horizontally */
+    flex-grow: 0; /* Prevent header from taking extra space */
+}
+
+.logo {
+    width: 400px; /* Reduced width */
+    height: auto; /* Maintain aspect ratio */
+    display: flex; /* Enable flexbox for centering */
+    justify-content: center; /* Center contents */
+}
+
+.logo img {
+    width: 100%; /* Make image take full width of logo container */
+    height: auto;
+    margin: 0 auto; /* Center image horizontally */
+    object-fit: contain;
+}
+
+main {
+    flex-grow: 1; /* Allow main content to take remaining space */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    text-align: center; /* Center text inside the main section */
+}
+
+.content {
+    margin-bottom: 2rem; /* Space below content */
+    font-family: 'WelcomeFont';
+}
+
+h1 {
+    font-size: 2.5rem; /* Adjust size as needed */
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-family: 'WelcomeFont'; /* Use the custom font */
+}
+
+p {
+    font-size: 1.25rem;
+    color: #d1d5db;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    font-family: Georgia, serif;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 0.875rem;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}

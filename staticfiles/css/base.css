@@ -1,0 +1,239 @@
+@font-face {
+    font-family: 'MainFont';
+    src: url('mainfont.ttf') format('truetype');
+}
+body {
+    font-family: 'MainFont'; 
+    background-color: #121212;
+    color: white;
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+canvas#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: black;
+    pointer-events: none;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    padding: 20px 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.navbar img {
+    width: 200px;
+    transition: transform 0.3s;
+}
+
+.navbar img:hover {
+    transform: scale(1.1);
+}
+
+
+.search-bar {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input[type="text"] {
+    width: 55%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.search-bar input:focus {
+    border: 1px solid #01db0c;
+}
+.auth-buttons a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    background-color: transparent; /* Removed background color */
+    border: 1px solid #333; /* Optional: add a border for definition */
+    border-radius: 5px;
+    font-family: 'MainFont'; /* Ensure using the main font */
+    font-size: 18px; /* Increased text size */
+    position: relative; /* Position relative for border effect */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.auth-buttons a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px; /* Height of the border */
+    background-color: white; /* Color of the border */
+    transform: scaleX(0); /* Initial scale for animation */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.auth-buttons a:hover::after {
+    transform: scaleX(1); /* Scale to full width on hover */
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.add-product-btn {
+    text-decoration: none;
+    padding: 10px 20px;
+    height: fit-content;
+    border-radius: 5px;
+    background-color: #000000;
+    color: white;
+    margin: auto;
+    transition: background-color 0.3s ease;
+    border: 1px solid #01db0c; /* Optional: green border for the 'Add a Product' button */
+}
+
+.add-product-btn:hover {
+    background-color: #363434;
+}
+
+
+
+.category-navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #000;
+    padding: 15px 0;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.507);
+    border-bottom: 0.5px solid rgba(255, 255, 255, 0.394);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.category-navbar a {
+    color: white;
+    text-decoration: none;
+    font-family: 'MainFont'; /* Ensure using the main font */
+    padding: 12px;
+    font-size: 18px; /* Increased text size */
+    position: relative; /* Position relative for border effect */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.category-navbar a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px; /* Height of the border */
+    background-color: white; /* Color of the border */
+    transform: scaleX(0); /* Initial scale for animation */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.category-navbar a:hover::after {
+    transform: scaleX(1); /* Scale to full width on hover */
+}
+
+.auth-buttons {
+    display: flex; /* Flexbox for button alignment */
+    gap: 15px; /* Space between buttons */
+}
+
+.auth-buttons a {
+    text-decoration: none; /* Remove underline */
+    padding: 10px 10px; /* Button padding */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #000000; /* Primary button color */
+    color: white; /* Text color */
+    transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+.auth-buttons a:hover {
+    background-color: #363434; /* Darker shade on hover */
+}
+
+
+.welcome-message {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center-align items */
+    padding: 15px 20px;
+    background-color: #000; /* Black background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2); /* Subtle white shadow for depth */
+    margin: 5px; /* Margin around the section */
+    animation: fadeIn 0.5s ease; /* Fade-in animation */
+}
+
+.navbar-username {
+    font-size: 1.5rem; /* Larger font size for the username */
+    font-weight: bold; /* Bold font for emphasis */
+    color: #fff; /* White text color */
+    margin: 0; /* Remove default margin */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Subtle text shadow for better readability */
+}
+.navbar-approvedby{
+    font-size: 1rem;
+}
+
+.welcome-message p {
+     /* Normal font size for the CC score */
+    margin: 5px 0; /* Space between paragraphs */
+    color: #ddd; /* Light gray color for CC score */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.welcome-message p:hover {
+    color: #fff; /* Change to white on hover */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start invisible */
+    }
+    to {
+        opacity: 1; /* Fade in to visible */
+    }
+}
+.footer {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    margin: auto;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.footer-link {
+    color: #fff;
+    text-decoration: none;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+

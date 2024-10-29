@@ -1,0 +1,148 @@
+@font-face {
+    font-family: 'MainFont';
+    src: url('{% static 'fonts/mainfont.ttf' %}') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    z-index: 1;
+}
+
+.product-card {
+    background-color: #00000066;
+    border-radius: 12px;
+    text-align: center;
+    color: #ffffff;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    position: relative; /* Allow for better hover effects */
+    border: 2px solid #444; /* Subtle border for definition */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.product-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    padding: 0;
+    transition: transform 0.3s;
+}
+
+.product-button:hover {
+    transform: scale(1.02);
+}
+
+.product-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px; /* Rounded corners for images */
+    transition: transform 0.3s;
+}
+
+.product-image:hover {
+    transform: scale(1.05);
+}
+
+.title {
+    margin: 10px 0;
+    color: #ffffff;
+    font-size: 1.6em; /* Slightly larger */
+    font-weight: bold; /* Make title bold */
+    max-width: 100%; /* Ensure it does not exceed card width */
+    overflow: hidden; /* Hide overflow text */
+    display: -webkit-box; /* Needed for line clamping */
+    -webkit-box-orient: vertical; /* Required for line clamping */
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    line-height: 1.2em; /* Adjust line height for better spacing */
+    max-height: 3.6em; /* Maximum height for three lines */
+    text-overflow: ellipsis; /* Show ellipsis for overflow */
+}
+
+
+
+
+.ratings {
+    display: flex;
+    justify-content: center; /* Center ratings */
+    margin: 10px 0; /* Space above and below */
+}
+
+.rating, .online-rating {
+    color: #ffffff; 
+    font-size: 1.1em; 
+    margin: 0 10px; /* Space between ratings */
+    text-align: center; /* Center text */
+}
+
+.rating:hover, .online-rating:hover {
+    color: #00ccff; /* Change color on hover for emphasis */
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-bar input {
+        width: 90%;  /* Adjusted width for smaller screens */
+    }
+}
+.price {
+    color: #00ff00; /* Green color */
+    font-size: 1.6em; /* Increased font size */
+    margin: 5px 0;
+    text-align: left; /* Align price to the left */
+}
+
+.ratings {
+    display: flex;
+    flex-direction: column; /* Stack ratings vertically */
+    align-items: flex-start; /* Align items to the left */
+    margin: 10px 0; /* Space above and below */
+}
+
+.rating, .online-rating {
+    color: #ffffff;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center; /* Aligns text and stars vertically */
+    width: 100%; /* Make sure it takes the full width */
+    justify-content: space-between; /* Space between label and stars */
+}
+
+.star-rating {
+    display: flex;
+    margin-left: 10px; /* Space between text and stars */
+}
+
+
+.star {
+    font-size: 1.5em; /* Size of the stars */
+    color: #ccc; /* Default star color */
+    margin-right: 2px; /* Space between stars */
+    transition: color 0.3s;
+}
+
+.star.filled {
+    color: #ffd700; /* Gold color for filled stars */
+}
+

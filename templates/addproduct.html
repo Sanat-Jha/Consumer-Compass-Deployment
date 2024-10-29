@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    {% if redirect %}
+    <form id="postForm" action="/product/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="product_title" value="{{ product_title }}">
+    </form>
+
+    <script>
+        document.getElementById("postForm").submit();
+    </script>
+{% endif %}
+    <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="file"] {
+    padding: 5px;
+}
+
+button.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.btn-submit:hover {
+    background-color: #218838;
+}
+/* Dropdown container */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown button */
+        .dropdown-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of links on hover */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the button when the dropdown is shown */
+        .dropdown:hover .dropdown-button {
+            background-color: #3e8e41;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add a Product</h1>
+        <form action="/addproduct/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <label for="category">Product Category</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>Select category</option>
+                    {% for cat in categories%}
+                    <option value="{{cat.name}}">{{cat.name}}</option>
+                    {% endfor %}
+                </select>
+            <div class="form-group">
+                <label for="title">Product Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter product title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Choose Product Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label for="amazon-link">Price
+                <input type="number" id="price" name="price" placeholder="Enter Price" required>
+            </div>
+            <div class="form-group">
+                <label for="amazon-link">Amazon Link</label>
+                <input type="url" id="amazon-link" name="amazon_link" placeholder="Enter Amazon product link" required>
+            </div>
+
+            <div class="form-group">
+                <label for="flipkart-link">Flipkart Link</label>
+                <input type="url" id="flipkart-link" name="flipkart_link" placeholder="Enter Flipkart product link" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Add Product</button>
+        </form>
+    </div>
+</body>
+</html> {% endcomment %}
+{% load static %}
+{% block title %}Add product{% endblock %}
+{% block content %}
+{% if redirect %}
+    <form id="postForm" action="/product/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="product_title" value="{{ product_title }}">
+    </form>
+
+    <script>
+        document.getElementById("postForm").submit();
+    </script>
+{% endif %}
+    <div class="container">
+    <link rel="stylesheet" href="{% static 'css/addproduct.css' %}">
+        <h2>Product Information</h2>
+<form action="/addproduct/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <!-- Section 1: Product Information -->
+        <!-- <div class="section-title">Product Information</div> -->
+        <label for="category">Product Category</label>
+        <select id="category" name="category"required>
+            <option value="">Select category</option>
+            {% for cat in categories %}
+            <option value="{{ cat.name }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="productTitle">Product Title</label>
+        <input type="text" name="title" id="productTitle" placeholder="Enter product title" required>
+
+        <!-- Section 2: Product Details -->
+        <!-- <div class="section-title">Product Details</div> -->
+        <label for="productImage">Choose Product Image</label>
+        <input type="file" id="productImage" name= "image" accept="image/*" onchange="previewImage(event)">
+        <img id="imagePreview" class="image-preview" alt="Product Image Preview">
+
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" placeholder="Enter price" required>
+
+        <!-- Section 3: Purchase Links -->
+        <!-- <div class="section-title">Purchase Links</div> -->
+        <label for="amazonLink">Amazon Link</label>
+        <input type="url" id="amazonLink" name = "amazon_link" placeholder="Enter Amazon product link">
+
+        <label for="flipkartLink">Flipkart Link</label>
+        <input type="url" id="flipkartLink" name = "flipkart_link" placeholder="Enter Flipkart product link">
+
+        <button type="submit">Add Product</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to preview the uploaded image
+        function previewImage(event) {
+            const image = document.getElementById('imagePreview');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display = 'block';
+        }
+    </script>
+{% endblock %}
