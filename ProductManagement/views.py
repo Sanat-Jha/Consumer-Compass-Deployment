@@ -8,13 +8,37 @@ from UserManagement.models import Consumer
 from .fetchamazonreviews import fetch_amazon_reviews
 # Create your views here.
 def product(request):
-    product = Product.objects.filter(title=request.POST.get("product_title"))[0]
-    ccreviews = Review.objects.filter(product=product)
-    if request.user.is_authenticated:
-        if len(Review.objects.filter(product=product,consumer=Consumer.objects.filter(username=request.user.username)[0]))==0:
-            return render(request, 'product.html',{'product':product,'ccreviews':ccreviews,'username':request.user.username,"writereview":True,"consumer":Consumer.objects.get(username=request.user.username),"categories":Category.objects.all()})
-        return render(request, 'product.html',{'product':product,'ccreviews':ccreviews,'username':request.user.username,"writereview":False,"consumer":Consumer.objects.get(username=request.user.username),"categories":Category.objects.all()})
-    return render(request, 'product.html',{'product':product,'ccreviews':ccreviews,'username':request.user.username,"writereview":False,"categories":Category.objects.all()})
+    try:
+        product = Product.objects.filter(title=request.POST.get("product_title"))[0]
+        ccreviews = Review.objects.filter(product=product)
+        if request.user.is_authenticated:
+            if len(Review.objects.filter(product=product, consumer=Consumer.objects.filter(username=request.user.username)[0])) == 0:
+                return render(request, 'product.html', {
+                    'product': product,
+                    'ccreviews': ccreviews,
+                    'username': request.user.username,
+                    "writereview": True,
+                    "consumer": Consumer.objects.get(username=request.user.username),
+                    "categories": Category.objects.all()
+                })
+            return render(request, 'product.html', {
+                'product': product,
+                'ccreviews': ccreviews,
+                'username': request.user.username,
+                "writereview": False,
+                "consumer": Consumer.objects.get(username=request.user.username),
+                "categories": Category.objects.all()
+            })
+        return render(request, 'product.html', {
+            'product': product,
+            'ccreviews': ccreviews,
+            'username': request.user.username,
+            "writereview": False,
+            "categories": Category.objects.all()
+        })
+    except:
+        return redirect('welcome')
+
 html_email_template = """
 <!DOCTYPE html>
 <html lang="en">
@@ -124,47 +148,58 @@ html_email_template = """
 
 # Formatting the template with actual values
 
-
-
 def addproduct(request):
-    context = {
-        "categories":Category.objects.all()
-    }
-    if request.user.is_authenticated:
-        context["consumer"]=Consumer.objects.get(username=request.user.username)
-    if request.method == 'POST':
-        reviews = fetch_amazon_reviews(request.POST.get("amazon_link"), 1)
-        half = len(reviews) // 2  # Integer division to get the midpoint
-        amazonreviews = reviews[:half]  # First half
-        flipkartreviews = reviews[half:]  # Second half
+    try:
+        context = {
+            "categories": Category.objects.all()
+        }
+        if request.user.is_authenticated:
+            context["consumer"] = Consumer.objects.get(username=request.user.username)
+        if request.method == 'POST':
+            reviews = fetch_amazon_reviews(request.POST.get("amazon_link"), 1)
+            half = len(reviews) // 2  # Integer division to get the midpoint
+            amazonreviews = reviews[:half]  # First half
+            flipkartreviews = reviews[half:]  # Second half
 
-        product = Product(title=request.POST.get("title"),category=Category.objects.get(name=request.POST.get("category")),ccscore=0,amazonreviews=amazonreviews,image=request.FILES['image'],flipkartreviews=flipkartreviews,online_rating=0,price=request.POST.get("price"))
-        product.save()
-        context["redirect"] = True
-        context["product_title"] = product.title
-        # Properly formatted email template
-        try:
-            formatted_email = html_email_template.format(
-                user_name=request.user.username,
-                product_name=product.title,
+            product = Product(
+                title=request.POST.get("title"),
+                category=Category.objects.get(name=request.POST.get("category")),
+                ccscore=0,
+                amazonreviews=amazonreviews,
+                image=request.FILES['image'],
+                flipkartreviews=flipkartreviews,
+                online_rating=0,
+                price=request.POST.get("price")
             )
+            product.save()
+            context["redirect"] = True
+            context["product_title"] = product.title
 
-            # Creating the email message
-            email_message = EmailMessage(
-                "Thanks for Adding a Product on Consumer Compass",  # subject of the email
-                formatted_email,  # HTML email body
-                "ConsumerCompassHelp@gmail.com",  # from email
-                [request.user.email]  # recipient list (should be a list)
-            )
+            # Properly formatted email template
+            try:
+                formatted_email = html_email_template.format(
+                    user_name=request.user.username,
+                    product_name=product.title,
+                )
 
-            # Setting the content type to HTML
-            email_message.content_subtype = "html"
+                # Creating the email message
+                email_message = EmailMessage(
+                    "Thanks for Adding a Product on Consumer Compass",  # subject of the email
+                    formatted_email,  # HTML email body
+                    "ConsumerCompassHelp@gmail.com",  # from email
+                    [request.user.email]  # recipient list (should be a list)
+                )
 
-            # Sending the email
-            email_message.send(fail_silently=False)
-        except:
-            print("Email sending failed!")
+                # Setting the content type to HTML
+                email_message.content_subtype = "html"
 
-        return  render(request, 'addproduct.html',context)
-    context["redirect"] = False
-    return render(request, 'addproduct.html',context)
+                # Sending the email
+                email_message.send(fail_silently=False)
+            except:
+                print("Email sending failed!")
+
+            return render(request, 'addproduct.html', context)
+        context["redirect"] = False
+        return render(request, 'addproduct.html', context)
+    except:
+        return redirect('welcome')
